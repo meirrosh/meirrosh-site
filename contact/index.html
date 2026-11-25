@@ -15,7 +15,7 @@
 <meta property="og:type" content="website"><meta property="og:site_name" content="Meir Rosh"><meta property="og:locale" content="he_IL">
 <meta property="og:title" content="ליצירת קשר · מאיר ראש – סטודיו לעיצוב ויצירות אמן"><meta property="og:description" content="צרו קשר עם מאיר ראש לפרויקטים, הזמנות ויצירות אמן: וואטסאפ 054-6532798, אינסטגרם ואימייל. הסטודיו ברבי עקיבא 86, בני ברק."><meta property="og:url" content="https://meirrosh.com/contact/">
 <meta property="og:image" content="https://meirrosh.com/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="/assets/site.css?v=2b7e8a3c">
+<link rel="stylesheet" href="/assets/site.css?v=03848ecd">
 </head>
 <body>
 <a class="skiplink" href="#main">דלג לתוכן הראשי</a>
@@ -115,41 +115,6 @@ document.addEventListener("click",e=>{if(pan.classList.contains("on")&&!pan.cont
 apply();
 }
 
-/* ---------- search works by name ---------- */
-{
-const sbtns=[...document.querySelectorAll(".sr-btn")],srp=$("#srp"),srq=$("#srq"),srl=$("#srl"),srh=$("#srh");
-const FIN={"ך":"כ","ם":"מ","ן":"נ","ף":"פ","ץ":"צ"};
-function srNorm(s){const out=[],map=[];for(let i=0;i<s.length;i++){let c=s[i];if(/[\u0591-\u05C7"'`׳״\-–—_.,:;!?()]/.test(c))continue;if(/\s/.test(c)){if(out.length&&out[out.length-1]===" ")continue;c=" "}c=FIN[c]||c.toLowerCase();out.push(c);map.push(i)}return {s:out.join(""),map}}
-let ALL=null;
-function srIndex(){if(ALL)return ALL;ALL=[];META.forEach((c,ci)=>c.folders.forEach(f=>{ALL.push({id:f.id,ci,t:f.t,n:srNorm(f.t)})}));ALL.sort((a,b)=>a.t.localeCompare(b.t,"he"));return ALL}
-function srHl(it,q){const k=it.n.s.indexOf(q);if(k<0)return esc(it.t);const a=it.n.map[k],b=it.n.map[k+q.length-1]+1;return esc(it.t.slice(0,a))+"<mark>"+esc(it.t.slice(a,b))+"</mark>"+esc(it.t.slice(b))}
-let lastQ="";
-function srRun(){const raw=srq.value,q=srNorm(raw).s.trim();if(q===lastQ)return;lastQ=q;
-  if(q.replace(/ /g,"").length<3){srl.innerHTML="";srh.textContent=raw.trim()?"עוד קצת… לפחות 3 אותיות":"הקלידו לפחות 3 אותיות";return}
-  const res=srIndex().filter(it=>it.n.s.includes(q));
-  if(!res.length){srl.innerHTML="";srh.textContent="לא נמצאו יצירות בשם הזה";return}
-  srh.textContent=res.length===1?"נמצאה יצירה אחת":`נמצאו ${res.length} יצירות`;
-  const show_=res.slice(0,120);
-  srl.innerHTML=show_.map(it=>`<li><button data-id="${it.id}" data-ci="${it.ci}"><span class="st${thumbs[it.id]?" ok":""}">${thumbs[it.id]?`<img src="${thumbs[it.id]}" alt="">`:""}</span><span class="sx"><b>${srHl(it,q)}</b><small>${esc(META[it.ci].he)}</small></span></button></li>`).join("");
-  const need=[...new Set(show_.filter(it=>!thumbs[it.id]).map(it=>it.ci))];
-  need.forEach(ci=>loadThumbs(ci).then(srFill));setTimeout(srFill,400)}
-function srFill(){srl.querySelectorAll(".st:not(.ok)").forEach(s=>{const id=s.parentNode.dataset.id;if(thumbs[id]){s.innerHTML=`<img src="${thumbs[id]}" alt="">`;s.classList.add("ok")}})}
-let st=0;srq.addEventListener("input",()=>{clearTimeout(st);st=setTimeout(srRun,120)});
-function srPlace(b){const r=b.getBoundingClientRect();srp.style.top=Math.round(r.bottom+8)+"px";if(innerWidth>600)srp.style.left=Math.max(12,Math.round(r.left))+"px";else srp.style.left=""}
-let opener=null;
-function srOpen(b){opener=b;srPlace(b);srp.hidden=false;srp.offsetWidth;srp.classList.add("on");sbtns.forEach(x=>x.setAttribute("aria-expanded","true"));setTimeout(()=>srq.focus(),60)}
-function srClose(back){srp.classList.remove("on");sbtns.forEach(x=>x.setAttribute("aria-expanded","false"));setTimeout(()=>{if(!srp.classList.contains("on"))srp.hidden=true},400);if(back&&opener)opener.focus()}
-sbtns.forEach(b=>b.addEventListener("click",e=>{e.stopPropagation();srp.classList.contains("on")?srClose(true):srOpen(b)}));
-$("#srx").onclick=()=>srClose(true);
-document.addEventListener("click",e=>{if(srp.classList.contains("on")&&!srp.contains(e.target)&&!e.target.closest(".sr-btn"))srClose()});
-srp.addEventListener("keydown",e=>{if(e.key==="Escape"){srClose(true);return}
-  const items=[...srl.querySelectorAll("button")];if(!items.length)return;const i=items.indexOf(document.activeElement);
-  if(e.key==="ArrowDown"){e.preventDefault();(items[i+1]||items[0]).focus()}else if(e.key==="ArrowUp"){e.preventDefault();if(i<=0)srq.focus();else items[i-1].focus()}
-  else if(e.key==="Enter"&&document.activeElement===srq){e.preventDefault();items[0].click()}});
-srl.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;const id=b.dataset.id,ci=+b.dataset.ci;srClose();show(ci,true);setTimeout(()=>openLB(id),700)});
-addEventListener("resize",()=>{if(srp.classList.contains("on")&&opener)srPlace(opener)});
-addEventListener("scroll",()=>{if(srp.classList.contains("on")&&opener&&opener.offsetParent)srPlace(opener)},{passive:true});
-}
 
 /* ---------- google reviews carousel + studio map ---------- */
 {
