@@ -262,6 +262,17 @@ html.mm-open .mm-btn .mm-ic{filter:brightness(1.25);box-shadow:0 0 0 1px #fff8e0
 @media(prefers-reduced-motion:reduce){.mm-btn .mm-ic{animation:none}}
 html.a-still .mm-btn .mm-ic{animation:none}
 @media(min-width:601px){nav#works .tabs{padding-inline:60px}}
+/* ---- vertical toggle switch (v3) ---- */
+.mm-btn,nav#works .mm-btn,.mbar .mm-btn{width:36px;height:44px}
+.mm-btn .mm-ic,.mbar .mm-btn .mm-ic{position:relative;width:14px;height:26px;border-radius:8px;background:rgba(10,12,30,.6);border:1px solid rgba(217,178,95,.55);box-shadow:inset 0 1px 3px rgba(0,0,0,.6);animation:none!important;filter:none;transform:none;transition:border-color .4s,box-shadow .5s}
+.mm-btn .mm-ic::after{content:"";position:absolute;inset:auto;left:50%;top:auto;bottom:2px;width:8px;height:8px;margin-left:-4px;border:0;border-radius:50%;opacity:1;transform:none;background:radial-gradient(circle at 35% 30%,#e8f1ff,#9db8e8 60%,#6f8fc8);box-shadow:0 0 4px rgba(157,184,232,.5);transition:bottom .45s cubic-bezier(.3,1.4,.5,1),background .4s,box-shadow .4s}
+.mm-btn:hover .mm-ic,.mm-btn:focus-visible .mm-ic{transform:none;border-color:#f2d68a;box-shadow:inset 0 1px 3px rgba(0,0,0,.6),0 0 8px rgba(242,214,138,.35)}
+.mm-btn:hover .mm-ic::after,.mm-btn:focus-visible .mm-ic::after{opacity:1;transform:none;bottom:4px}
+html.mm-open .mm-btn .mm-ic{filter:none;border-color:#f2d68a;box-shadow:inset 0 1px 3px rgba(0,0,0,.5),0 0 12px rgba(242,214,138,.55)}
+html.mm-open .mm-btn .mm-ic::after{bottom:14px;background:radial-gradient(circle at 35% 30%,#fffbe8,#f2d68a 55%,#c6993f);box-shadow:0 0 8px 2px rgba(242,214,138,.8)}
+.mm-btn.on .mm-ic::after{bottom:14px;background:radial-gradient(circle at 35% 30%,#fffbe8,#f2d68a 55%,#c6993f);box-shadow:0 0 8px 2px rgba(242,214,138,.8)}
+.mm-btn.on .mm-ic{border-color:#f2d68a}
+.mbar .mm-btn{top:10px}
 
 /* ===== accessibility ===== */
 .skiplink{position:fixed;top:-60px;inset-inline-start:12px;z-index:100;padding:10px 18px;border-radius:10px;background:var(--gold2);color:#12142a;font-weight:600;text-decoration:none;transition:top .25s}
@@ -839,7 +850,7 @@ let lastF=null,closeT=0;
 const setB=o=>btns.forEach(b=>{b.setAttribute("aria-expanded",o);b.setAttribute("aria-label",o?"סגירת התפריט":"תפריט האתר")});
 function open(){clearTimeout(closeT);mm.hidden=false;lastF=document.activeElement;mm.offsetWidth;setTimeout(()=>{root.classList.add("mm-open");setB(true);setTimeout(()=>{const f=mm.querySelector(".mm-a");if(f)f.focus({preventScroll:true})},450)},20)}
 function close(back){root.classList.remove("mm-open");setB(false);closeT=setTimeout(()=>{mm.hidden=true},950);if(back!==false&&lastF&&lastF.focus)lastF.focus({preventScroll:true})}
-btns.forEach(b=>b.addEventListener("click",()=>root.classList.contains("mm-open")?close():open()));bd.addEventListener("click",()=>close());xb.addEventListener("click",()=>close());
+btns.forEach(b=>b.addEventListener("click",()=>{if(root.classList.contains("mm-open")){close();return}b.classList.add("on");setTimeout(()=>{open();b.classList.remove("on")},380)}));bd.addEventListener("click",()=>close());xb.addEventListener("click",()=>close());
 tg.addEventListener("click",()=>{const o=!sub.classList.contains("on");sub.classList.toggle("on",o);tg.setAttribute("aria-expanded",o);tg.setAttribute("aria-label",o?"סגירת רשימת הקטגוריות":"פתיחת רשימת הקטגוריות")});
 addEventListener("keydown",e=>{if(!root.classList.contains("mm-open"))return;if(e.key==="Escape"){close();return}
   if(e.key==="Tab"){const f=[...mm.querySelectorAll("a[href],button")].filter(x=>x.offsetParent!==null);const a=f[0],z=f[f.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}});
