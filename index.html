@@ -401,12 +401,13 @@ const thumbs={};       // id -> blob url
 let cur=-1;
 function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
 function lay(){return ""}
+function hCenter(box,el){if(!el||box.scrollWidth<=box.clientWidth+2)return;box.scrollBy({left:el.getBoundingClientRect().left+el.offsetWidth/2-box.getBoundingClientRect().left-box.clientWidth/2,behavior:"smooth"})}
 function show(i,scroll){
   if(i===cur)return;cur=i;
   for(const b of tabs.children)b.setAttribute("aria-selected",b.dataset.i==i);
   for(const b of mtabs.children)b.setAttribute("aria-selected",b.dataset.i==i);
-  {const mt=mtabs.querySelector(`[data-i="${i}"]`);if(mt&&mbar.classList.contains("on"))mt.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"})}
-  const t=tabs.querySelector(`[data-i="${i}"]`);t.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  {const mt=mtabs.querySelector(`[data-i="${i}"]`);if(mt&&mbar.classList.contains("on"))hCenter(mtabs,mt)}
+  hCenter(tabs,tabs.querySelector(`[data-i="${i}"]`));
   const c=META[i];
   main.innerHTML=`<div class="head"><div><h1>${c.he}</h1><p>${c.en}</p></div></div>
   <div class="grid">${c.folders.map((f,k)=>`<button class="card${lay(k,c.folders.length)}" style="--i:${k}" data-id="${f.id}"><div class="ph${thumbs[f.id]?" ok":""}"><img alt="${esc(f.t)}" draggable="false"${thumbs[f.id]?` src="${thumbs[f.id]}"`:""}><i></i></div><div class="cap"><span>${esc(f.t)}</span></div></button>`).join("")}</div>`;
