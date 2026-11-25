@@ -245,6 +245,12 @@ html.mm-open .mm-btn .mm-ic::after{bottom:14px;background:radial-gradient(circle
 .mm-btn.on .mm-ic{border-color:#f2d68a}
 .mbar .mm-btn{top:10px}
 nav#works .mm-btn{top:10px;translate:none}
+/* label next to the toggle */
+.mm-btn,nav#works .mm-btn,.mbar .mm-btn{width:auto;display:flex;align-items:center;gap:8px;padding:0 4px;border-radius:12px}
+.mm-lb{display:flex;flex-direction:column;align-items:flex-start;line-height:1.05;pointer-events:none}
+.mm-lb b{font-size:11px;font-weight:400;color:rgba(242,214,138,.75);letter-spacing:0;transition:color .4s}
+.mm-lb small{font-size:7.5px;letter-spacing:.32em;color:rgba(217,178,95,.5);direction:ltr;margin-top:2px;transition:color .4s}
+.mm-btn:hover .mm-lb b,html.mm-open .mm-lb b{color:#f2d68a}.mm-btn:hover .mm-lb small,html.mm-open .mm-lb small{color:rgba(242,214,138,.8)}
 
 /* ===== accessibility ===== */
 .skiplink{position:fixed;top:-60px;inset-inline-start:12px;z-index:100;padding:10px 18px;border-radius:10px;background:var(--gold2);color:#12142a;font-weight:600;text-decoration:none;transition:top .25s}
