@@ -383,7 +383,8 @@ new IntersectionObserver(([en])=>navEl.classList.toggle("sc",!en.isIntersecting)
 /* ---------- tabs + gallery ---------- */
 const tabs=$("#tabs"),main=$("#main"),panel=$("#panel");
 panel.addEventListener("pointermove",e=>{const r=panel.getBoundingClientRect();panel.style.setProperty("--x",(e.clientX-r.left)+"px");panel.style.setProperty("--y",(e.clientY-r.top)+"px")});
-tabs.innerHTML=META.map((c,i)=>`<button class="tab" role="tab" id="tab${i}" data-i="${i}" aria-selected="false">${c.he}</button>`).join("");
+const ORD=[3, 9, 10, 1, 7, 12, 5, 14, 4, 8, 11, 6, 0, 2, 13, 16, 15, 17];
+tabs.innerHTML=ORD.map(i=>[META[i],i]).map(([c,i])=>`<button class="tab" role="tab" id="tab${i}" data-i="${i}" aria-selected="false">${c.he}</button>`).join("");
 const mbar=$("#mbar"),mtabs=$("#mtabs"),mfr=$("#mfr"),mfl=$("#mfl");
 mtabs.innerHTML=tabs.innerHTML.replace(/ id="tab\d+"/g,"");
 function mArrows(){const max=mtabs.scrollWidth-mtabs.clientWidth,x=Math.abs(mtabs.scrollLeft);
@@ -404,8 +405,8 @@ function show(i,scroll){
   if(i===cur)return;cur=i;
   for(const b of tabs.children)b.setAttribute("aria-selected",b.dataset.i==i);
   for(const b of mtabs.children)b.setAttribute("aria-selected",b.dataset.i==i);
-  {const mt=mtabs.children[i];if(mt&&mbar.classList.contains("on"))mt.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"})}
-  const t=tabs.children[i];t.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+  {const mt=mtabs.querySelector(`[data-i="${i}"]`);if(mt&&mbar.classList.contains("on"))mt.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"})}
+  const t=tabs.querySelector(`[data-i="${i}"]`);t.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
   const c=META[i];
   main.innerHTML=`<div class="head"><div><h1>${c.he}</h1><p>${c.en}</p></div></div>
   <div class="grid">${c.folders.map((f,k)=>`<button class="card${lay(k,c.folders.length)}" style="--i:${k}" data-id="${f.id}"><div class="ph${thumbs[f.id]?" ok":""}"><img alt="${esc(f.t)}" draggable="false"${thumbs[f.id]?` src="${thumbs[f.id]}"`:""}><i></i></div><div class="cap"><span>${esc(f.t)}</span></div></button>`).join("")}</div>`;
@@ -426,10 +427,10 @@ mtabs.onclick=e=>{const b=e.target.closest(".tab");if(!b)return;show(+b.dataset.
   const y=main.getBoundingClientRect().top+scrollY-mbar.offsetHeight-6;scrollTo({top:y,behavior:"smooth"})};
 main.onclick=e=>{const c=e.target.closest(".card");if(c)openLB(c.dataset.id)};
 const h=location.hash.slice(1),hi=SLUG.indexOf(h);
-show(hi>=0?hi:0,false);
+show(hi>=0?hi:ORD[0],false);
 addEventListener("hashchange",()=>{const j=SLUG.indexOf(location.hash.slice(1));if(j>=0)show(j,true)});
 // prefetch next categories' first chunk quietly
-setTimeout(()=>META.forEach((c,i)=>i!==cur&&getJ(`d/t${i}_0.json`).then(a=>a.forEach(r=>{if(!thumbs[r.id])thumbs[r.id]=url(r.d,"image/avif")})).catch(()=>{})),5000);
+setTimeout(()=>ORD.forEach(i=>i!==cur&&getJ(`d/t${i}_0.json`).then(a=>a.forEach(r=>{if(!thumbs[r.id])thumbs[r.id]=url(r.d,"image/avif")})).catch(()=>{})),5000);
 
 /* ---------- lightbox ---------- */
 const lb=$("#lb"),lbi=$("#lbi"),spin=$("#spin"),strip=$("#strip");
