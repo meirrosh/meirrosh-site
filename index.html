@@ -821,7 +821,7 @@ if("IntersectionObserver"in window){new IntersectionObserver(es=>{const touch=!m
 const root=document.documentElement,btns=[...document.querySelectorAll(".mm-btn")],bd=document.getElementById("mmBd"),xb=document.getElementById("mmX"),mm=document.getElementById("mm"),tg=document.getElementById("mmTg"),sub=document.getElementById("mmSub");
 let lastF=null,closeT=0;
 const setB=o=>btns.forEach(b=>{b.setAttribute("aria-expanded",o);b.setAttribute("aria-label",o?"סגירת התפריט":"תפריט האתר")});
-function open(){clearTimeout(closeT);mm.hidden=false;lastF=document.activeElement;requestAnimationFrame(()=>requestAnimationFrame(()=>{root.classList.add("mm-open");setB(true);setTimeout(()=>{const f=mm.querySelector(".mm-a");if(f)f.focus({preventScroll:true})},450)}))}
+function open(){clearTimeout(closeT);mm.hidden=false;lastF=document.activeElement;mm.offsetWidth;setTimeout(()=>{root.classList.add("mm-open");setB(true);setTimeout(()=>{const f=mm.querySelector(".mm-a");if(f)f.focus({preventScroll:true})},450)},20)}
 function close(back){root.classList.remove("mm-open");setB(false);closeT=setTimeout(()=>{mm.hidden=true},950);if(back!==false&&lastF&&lastF.focus)lastF.focus({preventScroll:true})}
 btns.forEach(b=>b.addEventListener("click",()=>root.classList.contains("mm-open")?close():open()));bd.addEventListener("click",()=>close());xb.addEventListener("click",()=>close());
 tg.addEventListener("click",()=>{const o=!sub.classList.contains("on");sub.classList.toggle("on",o);tg.setAttribute("aria-expanded",o);tg.setAttribute("aria-label",o?"סגירת רשימת הקטגוריות":"פתיחת רשימת הקטגוריות")});
