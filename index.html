@@ -75,33 +75,32 @@ nav{position:sticky;top:0;z-index:20;background:rgba(7,8,16,.86);backdrop-filter
 .tab[aria-selected=true]{background:linear-gradient(180deg,#f3d98f,#c9994a);border-color:transparent;color:#12142a;font-weight:600;box-shadow:0 6px 20px -8px rgba(217,178,95,.6)}
 @media(max-width:600px){.mini{display:none}nav{position:static}.tabs{gap:7px 6px;padding:14px 8px}.tab{padding:4px 11px;min-height:0;font-size:13px}}
 /* ===== about ===== */
-.about{overflow-x:clip;max-width:1400px;margin:40px auto 0;padding:clamp(40px,6vw,80px) max(4vw,14px) clamp(20px,3vw,40px);border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(26px,5vw,80px);align-items:center}
-.ab-media{position:relative;display:grid;place-items:center;padding:clamp(40px,6vw,90px) 0;isolation:isolate}
-.ab-bg{position:absolute;z-index:-1;top:50%;left:50%;translate:-50% -50%;height:175%;aspect-ratio:928/1376;opacity:.22;transition:opacity 1.4s ease;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 45%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 45%,transparent 100%);pointer-events:none}
+.about{overflow-x:clip;max-width:1400px;margin:40px auto 0;padding:clamp(40px,6vw,80px) max(4vw,14px) clamp(20px,3vw,40px);border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(20px,4vw,64px);align-items:center}
+.ab-media{position:relative;align-self:stretch;min-height:460px}
+.ab-bg{position:absolute;top:50%;left:50%;translate:-50% -50%;height:min(118%,760px);aspect-ratio:928/1376;opacity:.32;transition:opacity 1.4s ease;-webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 52%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 52%,transparent 100%);pointer-events:none}
 .ab-bg img,.ab-bg video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 50%;display:block}
 .ab-bg video{opacity:0;transition:opacity 1.6s ease}
-.about.vid .ab-bg{opacity:.34}
+.about.vid .ab-bg{opacity:.5}
 .about.vid .ab-bg video{opacity:1}
-.ab-photo{position:relative;width:min(360px,70%);aspect-ratio:1;border-radius:30px;overflow:hidden;border:1px solid rgba(217,178,95,.45);box-shadow:0 40px 80px -30px rgba(0,0,0,.9),0 0 0 8px rgba(217,178,95,.06);background:#0c0e20}
-.ab-photo img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.6s ease}
-.about.vid .ab-photo img{transform:scale(1.03)}
-.ab-photo::after{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(242,214,138,.12),inset 0 -60px 80px -40px rgba(8,9,19,.55);pointer-events:none}
-.ab-text .kick{margin:0 0 10px;color:var(--gold);letter-spacing:.32em;font-size:12.5px;font-weight:500;direction:ltr;text-align:right}
-.ab-text h2{margin:0 0 6px;font-size:clamp(30px,4vw,44px);font-weight:600;line-height:1.15;background:linear-gradient(100deg,#b8893b,#f2d68a 45%,#d9b25f 70%,#a8792f);-webkit-background-clip:text;background-clip:text;color:transparent}
-.ab-text .orn{display:flex;align-items:center;gap:10px;margin:14px 0 22px;color:var(--gold)}
+.ab-hi{display:flex;align-items:center;gap:16px;margin-bottom:4px}
+.ab-photo{flex:none;width:86px;aspect-ratio:1;border-radius:20px;overflow:hidden;border:1px solid rgba(217,178,95,.5);box-shadow:0 14px 30px -14px rgba(0,0,0,.9),0 0 0 4px rgba(217,178,95,.07);background:#0c0e20}
+.ab-photo img{width:100%;height:100%;object-fit:cover;object-position:45% 30%;display:block;transform:scale(1.25)}
+.ab-text .kick{margin:0 0 14px;color:var(--gold);letter-spacing:.32em;font-size:12.5px;font-weight:500;direction:ltr;text-align:right}
+.ab-text h2{margin:0;font-size:clamp(15.5px,1.15vw,17.5px);font-weight:700;line-height:1.4;color:var(--gold2)}
+.ab-text .orn{display:flex;align-items:center;gap:10px;margin:16px 0 18px;color:var(--gold)}
 .ab-text .orn i{display:block;width:80px;height:1px;background:linear-gradient(270deg,rgba(217,178,95,.8),transparent)}
 .ab-text .orn b{width:7px;height:7px;transform:rotate(45deg);border:1px solid var(--gold)}
-.ab-text p{margin:0 0 16px;color:#d3cfc4;font-weight:300;font-size:clamp(15.5px,1.15vw,17.5px);line-height:1.85;text-align:right;max-width:62ch}
-.ab-text p.lead{color:#ece8dc;font-size:clamp(17px,1.35vw,20px);font-weight:400}
-.ab-text p.lead b{color:var(--gold2);font-weight:600}
-.ab-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:24px;padding-top:22px;border-top:1px solid var(--line)}
-.ab-cta span{color:var(--gold2);font-size:clamp(16px,1.3vw,19px);font-weight:500;margin-inline-end:6px}
+.ab-text p{margin:0 0 14px;color:#d3cfc4;font-weight:300;font-size:clamp(15.5px,1.15vw,17.5px);line-height:1.5;text-align:right;max-width:64ch}
+.ab-text p.lead{color:#ece8dc;font-weight:500}
+.ab-text p.lead b{color:var(--gold2);font-weight:700}
+.ab-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.ab-cta span{color:var(--gold2);font-size:clamp(15.5px,1.15vw,17.5px);font-weight:600;margin-inline-end:6px}
 .ab-cta a{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:999px;text-decoration:none;font-size:14.5px;font-weight:600;color:#12142a;background:linear-gradient(180deg,#f2d68a,#d9b25f);transition:transform .3s,box-shadow .3s}
 .ab-cta a:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(217,178,95,.55)}
 .ab-cta a.o{background:transparent;color:var(--gold2);border:1px solid rgba(217,178,95,.5);font-weight:500}
 .ab-cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
-@media(max-width:900px){.about{grid-template-columns:1fr;gap:10px}.ab-media{padding:50px 0 30px}.ab-bg{height:150%}.ab-text{max-width:640px;margin:auto}}
-@media(max-width:600px){.ab-photo{width:76%;border-radius:24px}.ab-text .kick{font-size:11px;letter-spacing:.24em}.ab-text p{line-height:1.75}.ab-cta{justify-content:center}.ab-cta span{flex-basis:100%;text-align:center;margin:0 0 4px}}
+@media(max-width:900px){.about{grid-template-columns:1fr;gap:0}.ab-media{min-height:380px;margin-bottom:6px}.ab-bg{height:118%}.ab-text{max-width:640px;margin:auto}}
+@media(max-width:600px){.ab-media{min-height:320px}.ab-photo{width:72px;border-radius:17px}.ab-text .kick{font-size:11px;letter-spacing:.24em}.ab-cta{justify-content:center}.ab-cta span{flex-basis:100%;text-align:center;margin:0 0 4px}}
 html.a-hc .ab-text p{color:#fff!important}
 /* ===== studio map + google reviews ===== */
 .visit{max-width:1400px;margin:30px auto 0;padding:clamp(40px,6vw,76px) max(4vw,14px) 10px;border-top:1px solid var(--line)}
@@ -318,17 +317,16 @@ footer .fl{display:block;margin-top:8px}footer .fl a{color:#a9a6bb;font-size:.9e
 <section class="about" id="about" aria-labelledby="aboutT">
   <div class="ab-media">
     <div class="ab-bg" aria-hidden="true"><picture><source srcset="about/alley.avif" type="image/avif"><img src="about/alley.jpg" alt="" loading="lazy" decoding="async"></picture><video muted playsinline loop preload="none" data-src="about/alley.mp4"></video></div>
-    <div class="ab-photo"><picture><source srcset="about/me.avif" type="image/avif"><img src="about/me.jpg" alt="מאיר ראש" loading="lazy" decoding="async" width="900" height="900"></picture></div>
   </div>
   <div class="ab-text">
     <p class="kick">ABOUT · אודות</p>
-    <h2 id="aboutT">היי, נעים להכיר</h2>
+    <div class="ab-hi"><div class="ab-photo"><picture><source srcset="about/me.avif" type="image/avif"><img src="about/me.jpg" alt="מאיר ראש" loading="lazy" decoding="async" width="900" height="900"></picture></div><h2 id="aboutT">היי, נעים להכיר</h2></div>
     <div class="orn" aria-hidden="true"><b></b><i></i></div>
     <p class="lead">שמי <b>מאיר ראש</b>. עוסק למעלה מעשור בטיפוגרפיה עברית, יודאיקה ועיצוב גרפי. בסטודיו שלי אני יוצר עבור לקוחות וקהילות בארץ ובעולם. לצד עבודות בהזמנה אני מפתח יצירות אמנות.</p>
     <p>האות העברית עומדת במרכז רבות מעבודותיי. כשאני ניגש לעצב פסוק לפרוכת או שם לספר, אני מתחיל בהבנת המשמעות. משמעות המילים והקצב שלהן מנחים אותי בבחירת סגנון האותיות הקליגרפי, ואת המקום שאני נותן לשאר היצירה ולצבע. אני אוהב במיוחד את הרגע שבו הוויזואליות של מילה מצליחה לבטא את המשמעות שלה.</p>
     <p>לצד העיסוק באותיות, אני מצייר דיגיטלית יצירות ודיוקנאות. בעת שכזו אני מחפש דרך לבטא את מה שהנושא מעורר בי. בדיוקן חשוב לי לתפוס משהו מאופיה של הדמות דרך המבט וההבעה שלה.</p>
     <p>ביצירות בהזמנה חשוב לי להכיר את האנשים שהיצירה מיועדת להם. בפרוכת לבית כנסת, למשל, יש מקום לאופי של הקהילה ובית הכנסת. השיחות האלה הן חלק בלתי נפרד מהעבודה שלי.</p>
-    <div class="ab-cta"><span>מעוניינים בהזמנת הדפסים או יצירות בהתאמה אישית? פנו אליי כעת <bdi dir="ltr">:)</bdi></span><a href="https://wa.me/972546532798" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5 5 16.1A8.4 8.4 0 1 1 20.5 11.6z"/></svg>שליחת הודעה בוואטסאפ</a><a class="o" href="#contact">לכל דרכי הקשר</a></div>
+    <div class="ab-cta"><span>מעוניינים בהזמנת הדפסים או יצירות בהתאמה אישית? פנו אליי כעת <bdi dir="ltr">:)</bdi></span><a href="https://wa.me/972546532798" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5 5 16.1A8.4 8.4 0 1 1 20.5 11.6z"/></svg>שליחת הודעה בוואטסאפ</a><a class="o" href="#contact">ליצירת קשר</a></div>
   </div>
 </section>
 <section class="visit" id="visit" aria-labelledby="visitT">
