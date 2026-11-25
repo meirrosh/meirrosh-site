@@ -720,7 +720,7 @@ async function loadThumbs(i){
       const card=main.querySelector(`[data-id="${r.id}"] .ph`);if(card&&!card.classList.contains("ok")){const im=card.querySelector("img");im.onload=()=>card.classList.add("ok");im.src=thumbs[r.id]}}
   }
 }
-function catY(){const n=$("nav"),mb=mbar.classList.contains("on");let off=12;
+function catY(){const n=$("nav#works"),mb=mbar.classList.contains("on");let off=12;
   if(mb)off+=mbar.offsetHeight;else if(getComputedStyle(n).position==="sticky")off+=n.offsetHeight;
   return Math.max(0,main.getBoundingClientRect().top+scrollY-off)}
 let goT=0;
