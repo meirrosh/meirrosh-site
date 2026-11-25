@@ -85,12 +85,11 @@ nav{position:sticky;top:0;z-index:20;background:rgba(7,8,16,.86);backdrop-filter
 .vgrid{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(14px,2vw,26px);align-items:stretch}
 .mapbox{position:relative;min-height:440px;border-radius:24px;overflow:hidden;border:1px solid rgba(217,178,95,.28);background:radial-gradient(circle at 50% 45%,#16193a,#090b1a 70%);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
 #smap{position:absolute;inset:0;background:transparent}
-#smap .leaflet-tile-pane{filter:url(#mrDuo)}
 .mapbox::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(242,214,138,.08),inset 0 0 90px 10px rgba(6,7,18,.75);z-index:401}
-.leaflet-container{font:inherit!important;background:#0a0d22!important}
-.leaflet-control-zoom a{background:rgba(10,12,30,.9)!important;color:var(--gold2)!important;border-color:rgba(217,178,95,.3)!important}
-.leaflet-control-attribution{background:rgba(8,9,19,.65)!important;color:#8d8a9c!important;font-size:10px!important}
-.leaflet-control-attribution a{color:#b9a56f!important}
+.maplibregl-map{font:inherit!important}
+.maplibregl-ctrl-group{background:rgba(10,12,30,.9)!important;border:1px solid rgba(217,178,95,.3)}.maplibregl-ctrl-group button+button{border-top-color:rgba(217,178,95,.3)!important}.maplibregl-ctrl-group .maplibregl-ctrl-icon{filter:invert(78%) sepia(40%) saturate(500%) hue-rotate(2deg)}.maplibregl-cooperative-gesture-screen{font-size:16px!important;z-index:403}
+.maplibregl-ctrl-attrib{background:rgba(8,9,19,.7)!important;color:#8d8a9c!important;font-size:10px!important}.maplibregl-ctrl-attrib-button{filter:invert(1)}
+.maplibregl-ctrl-attrib a{color:#b9a56f!important}
 .mpin{position:relative;width:54px;height:54px}
 .mpin img{position:absolute;inset:5px;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--gold2);box-shadow:0 8px 22px rgba(0,0,0,.6),0 0 0 4px rgba(217,178,95,.18)}
 .mpin::before{content:"";position:absolute;inset:-6px;border-radius:18px;border:1px solid rgba(242,214,138,.6);animation:mpulse 2.6s ease-out infinite}
@@ -286,7 +285,6 @@ footer .fl{display:block;margin-top:8px}footer .fl a{color:#a9a6bb;font-size:.9e
 <main id="main" tabindex="-1"></main>
 
 <section class="visit" id="visit" aria-labelledby="visitT">
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><filter id="mrDuo" color-interpolation-filters="sRGB"><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncR type="gamma" amplitude="1" exponent=".8"/><feFuncG type="gamma" amplitude="1" exponent=".8"/><feFuncB type="gamma" amplitude="1" exponent=".8"/></feComponentTransfer><feComponentTransfer><feFuncR type="table" tableValues=".035 .07 .62 .87 .97"/><feFuncG type="table" tableValues=".05 .085 .48 .72 .88"/><feFuncB type="table" tableValues=".14 .22 .26 .38 .6"/></feComponentTransfer></filter></svg>
   <div class="vhead"><p class="kick">The Studio · Bnei Brak</p><h2 id="visitT">מוזמנים לסטודיו<small>VISIT THE STUDIO</small></h2><div class="orn" aria-hidden="true"><i></i><b></b><i></i></div></div>
   <div class="vgrid">
     <div class="mapbox"><div id="smap" role="region" aria-label="מפת מיקום הסטודיו: רבי עקיבא 86, בני ברק"></div>
@@ -629,13 +627,26 @@ new MutationObserver(rplan).observe(document.documentElement,{attributes:true,at
 rplan();
 const P=[32.0860821,34.8303852];let mapOn=false;
 function initMap(){if(mapOn)return;mapOn=true;
-  const l=document.createElement("link");l.rel="stylesheet";l.href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css";document.head.appendChild(l);
-  const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js";s.onload=()=>{
-    const touch=matchMedia("(pointer:coarse)").matches;
-    const m=L.map("smap",{center:[P[0]+.0009,P[1]],zoom:16,scrollWheelZoom:false,dragging:!touch,tap:false,zoomControl:true,attributionControl:true});
-    L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png",{subdomains:"abcd",maxZoom:19,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'}).addTo(m);
-    L.marker(P,{icon:L.divIcon({className:"",html:'<div class="mpin"><img src="icon-192.png" alt=""></div>',iconSize:[54,54],iconAnchor:[27,63]}),keyboard:false,title:"מאיר ראש · רבי עקיבא 86, בני ברק"}).addTo(m);
-    if(touch)m.on("click",()=>m.dragging.enable());
+  const l=document.createElement("link");l.rel="stylesheet";l.href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css";document.head.appendChild(l);
+  const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js";s.onload=()=>{
+    const m=new maplibregl.Map({container:"smap",style:"https://tiles.openfreemap.org/styles/positron",center:[P[1],P[0]+.0008],zoom:15.6,cooperativeGestures:true,attributionControl:{compact:true},
+      locale:{"CooperativeGesturesHandler.WindowsHelpText":"להגדלת המפה: Ctrl + גלגלת","CooperativeGesturesHandler.MacHelpText":"להגדלת המפה: ⌘ + גלגלת","CooperativeGesturesHandler.MobileHelpText":"הזיזו את המפה בשתי אצבעות"}});
+    m.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-left");
+    m.on("styledata",()=>{if(m._mr)return;m._mr=1;
+      for(const L of m.getStyle().layers){const id=L.id,y=L.type;
+        try{
+        if(y==="background")m.setPaintProperty(id,"background-color","#0a0d22");
+        else if(y==="fill"){m.setPaintProperty(id,"fill-color",/water/.test(id)?"#05071a":/building/.test(id)?"#161a3e":/park|wood|grass|landcover|landuse/.test(id)?"#0d1130":"#0b0f28");m.setPaintProperty(id,"fill-outline-color","rgba(217,178,95,.10)")}
+        else if(y==="line"){const major=/motorway|trunk|primary|major/.test(id),road=/road|highway|street|minor|secondary|tertiary|bridge|tunnel|path|rail/.test(id);
+          if(/water/.test(id))m.setPaintProperty(id,"line-color","#0b1638");
+          else if(/boundary|admin/.test(id))m.setPaintProperty(id,"line-color","rgba(217,178,95,.25)");
+          else if(road){m.setPaintProperty(id,"line-color",major?"#e3bd6a":/casing/.test(id)?"#0a0d22":"#9a7c43");if(/rail|path/.test(id))m.setPaintProperty(id,"line-opacity",.45)}
+          else m.setPaintProperty(id,"line-color","#3a3420")}
+        else if(y==="symbol"){m.setPaintProperty(id,"text-color",/place|city|town|village|suburb/.test(id)?"#f2d68a":"#c9a85e");m.setPaintProperty(id,"text-halo-color","#080a1c");m.setPaintProperty(id,"text-halo-width",1.4);m.setPaintProperty(id,"icon-opacity",0)}
+        }catch(e){}
+      }});
+    const el=document.createElement("div");el.className="mpin";el.innerHTML='<img src="icon-192.png" alt="">';el.title="מאיר ראש · רבי עקיבא 86, בני ברק";
+    new maplibregl.Marker({element:el,anchor:"bottom",offset:[0,-9]}).setLngLat([P[1],P[0]]).addTo(m);
   };document.head.appendChild(s)}
 const sm=$("#smap");if("IntersectionObserver"in window){const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){initMap();io.disconnect()}},{rootMargin:"500px"});io.observe(sm)}else initMap();
 }
