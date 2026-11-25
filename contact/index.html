@@ -15,7 +15,7 @@
 <meta property="og:type" content="website"><meta property="og:site_name" content="Meir Rosh"><meta property="og:locale" content="he_IL">
 <meta property="og:title" content="ליצירת קשר · מאיר ראש – סטודיו לעיצוב ויצירות אמן"><meta property="og:description" content="צרו קשר עם מאיר ראש לפרויקטים, הזמנות ויצירות אמן: וואטסאפ 054-6532798, אינסטגרם ואימייל. הסטודיו ברבי עקיבא 86, בני ברק."><meta property="og:url" content="https://meirrosh.com/contact/">
 <meta property="og:image" content="https://meirrosh.com/og.jpg"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="/assets/site.css?v=d4557839">
+<link rel="stylesheet" href="/assets/site.css?v=853af49a">
 </head>
 <body>
 <a class="skiplink" href="#main">דלג לתוכן הראשי</a>
@@ -113,6 +113,51 @@ $("#a11yX").onclick=()=>open(false);
 addEventListener("keydown",e=>{if(e.key==="Escape"&&pan.classList.contains("on"))open(false)});
 document.addEventListener("click",e=>{if(pan.classList.contains("on")&&!pan.contains(e.target)&&!btn.contains(e.target))open(false)});
 apply();
+}
+
+/* hover zoom: a card grows over a 3x3 area (desktop) */
+{
+const fine=matchMedia("(hover:hover) and (pointer:fine)");
+let zv=null,zid=null,zt=0,ht=0;
+const off=()=>reduce||document.documentElement.classList.contains("a-still");
+function zMk(grid){if(zv&&zv.parentNode===grid)return zv;if(zv)zv.remove();zv=document.createElement("div");zv.className="zv";zv.setAttribute("aria-hidden","true");
+  zv.innerHTML='<img class="lo" alt=""><img class="hi" alt=""><div class="zc"><b></b><span>לצפייה ←</span></div>';
+  grid.appendChild(zv);return zv}
+function zRect(el){return {x:el.offsetLeft,y:el.offsetTop,w:el.offsetWidth,h:el.offsetHeight}}
+function zHide(now){clearTimeout(zt);clearTimeout(ht);if(!zv||!zid)return;const c=zv.parentNode&&zv.parentNode.querySelector(`.card[data-id="${zid}"]`);zid=null;
+  if(now||!c){zv.classList.remove("on");zv.style.opacity="0";return}
+  const r=zRect(c);Object.assign(zv.style,{left:r.x+"px",top:r.y+"px",width:r.w+"px",height:r.h+"px"});zv.classList.remove("on")}
+function zShow(card){
+  const grid=card.parentNode,cards=[...grid.querySelectorAll(".card")],k=cards.indexOf(card),n=cards.length;
+  const cs=getComputedStyle(grid),cols=cs.gridTemplateColumns.split(" ").filter(Boolean).length,g=parseFloat(cs.columnGap)||0,rg=parseFloat(cs.rowGap)||g;
+  if(cols<3)return;
+  const z=zMk(grid),r=zRect(card),W=3*r.w+2*g,H=3*r.h+2*rg,col=k%cols,row=Math.floor(k/cols),rows=Math.ceil(n/cols);
+  /* RTL: column 0 is the rightmost */
+  let x=col===0?r.x+r.w-W:col===cols-1?r.x:r.x-r.w-g;
+  const nb=document.querySelector("nav#works"),top=(nb?nb.getBoundingClientRect().bottom:0)+8,cr=card.getBoundingClientRect();
+  const up1=cr.top-r.h-rg>=top,dn1=cr.bottom+r.h+rg<=innerHeight,dn2=cr.bottom+2*(r.h+rg)<=innerHeight,up2=cr.top-2*(r.h+rg)>=top;
+  let y;
+  if(row===0)y=r.y;
+  else if(row>=rows-1)y=r.y+r.h-H;
+  else if(up1&&dn1)y=r.y-r.h-rg;
+  else if(dn2||!up1)y=r.y;
+  else if(up2||!dn1)y=r.y+r.h-H;
+  else y=r.y-r.h-rg;
+  zid=card.dataset.id;const im=card.querySelector(".ph img");
+  const lo=z.querySelector(".lo"),hi=z.querySelector(".hi");lo.src=im&&im.src||"";hi.classList.remove("ok");hi.removeAttribute("src");
+  z.querySelector(".zc b").textContent=(fold(zid).f||{}).t||"";
+  if(!z.classList.contains("on")){z.style.transition="none";Object.assign(z.style,{left:r.x+"px",top:r.y+"px",width:r.w+"px",height:r.h+"px",opacity:""});z.offsetWidth;z.style.transition=""}else z.style.opacity="";
+  z.classList.add("on");Object.assign(z.style,{left:x+"px",top:y+"px",width:W+"px",height:H+"px"});
+  const id=zid;clearTimeout(ht);ht=setTimeout(()=>zHi(id),320)}
+async function zHi(id){
+  try{if(!full[id]){const {ci,f}=fold(id);const arr=await getJ(`d/f${ci}_${f.fc}.json`);for(const r of arr){(full[r.id]=full[r.id]||[])[r.i]=r.d}}
+    const l=full[id];if(!l||!l.length)return;if(typeof l[0]==="string"&&l[0].length>200)l[0]=url(l[0],"image/avif");
+    if(zid!==id||!zv)return;const hi=zv.querySelector(".hi");hi.onload=()=>{if(zid===id)hi.classList.add("ok")};hi.src=l[0]}catch(e){}}
+main.addEventListener("mouseover",e=>{if(!fine.matches||innerWidth<=900)return;const c=e.target.closest&&e.target.closest(".card");if(!c||c.dataset.id===zid)return;
+  clearTimeout(zt);zt=setTimeout(()=>{if(c.matches(":hover"))zShow(c)},off()?0:110)});
+main.addEventListener("mouseout",e=>{const c=e.target.closest&&e.target.closest(".card");if(!c)return;const to=e.relatedTarget;if(to&&to.closest&&to.closest(".card"))return;clearTimeout(zt);zHide()});
+main.addEventListener("click",e=>{if(e.target.closest&&e.target.closest(".card"))zHide(true)},true);
+addEventListener("resize",()=>zHide(true));
 }
 
 /* ---------- google reviews carousel + studio map ---------- */
