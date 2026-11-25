@@ -75,17 +75,6 @@ nav{position:sticky;top:0;z-index:20;background:rgba(7,8,16,.86);backdrop-filter
 .tab:hover{color:var(--ink);border-color:rgba(217,178,95,.6);transform:translateY(-1px)}
 .tab[aria-selected=true]{background:linear-gradient(180deg,#f3d98f,#c9994a);border-color:transparent;color:#12142a;font-weight:600;box-shadow:0 6px 20px -8px rgba(217,178,95,.6)}
 @media(max-width:600px){.mini{display:none}nav{position:static}.tabs{gap:7px 6px;padding:14px 8px}.tab{padding:4px 11px;min-height:0;font-size:13px}}
-/* ===== hover zoom (desktop) ===== */
-.grid{position:relative}
-.zv{position:absolute;z-index:15;pointer-events:none;border-radius:18px;overflow:hidden;background:#0b0c18;border:1px solid rgba(217,178,95,.55);box-shadow:0 40px 90px -30px rgba(0,0,0,.95),0 0 0 6px rgba(217,178,95,.06);cursor:zoom-in;opacity:0;transition:left .45s cubic-bezier(.2,.7,.2,1),top .45s cubic-bezier(.2,.7,.2,1),width .45s cubic-bezier(.2,.7,.2,1),height .45s cubic-bezier(.2,.7,.2,1),opacity .3s ease}
-.zv.on{opacity:1}
-.zv img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.zv img.hi{opacity:0;transition:opacity .6s ease}.zv img.hi.ok{opacity:1}
-.zv .zc{position:absolute;inset-inline:0;bottom:0;padding:60px 22px 18px;background:linear-gradient(transparent,rgba(5,6,14,.6) 40%,rgba(5,6,14,.92));display:flex;align-items:flex-end;justify-content:space-between;gap:14px;opacity:0;transform:translateY(10px);transition:opacity .4s .2s,transform .5s .2s}
-.zv.on .zc{opacity:1;transform:none}
-.zv .zc b{font-size:clamp(17px,1.5vw,22px);font-weight:600;color:#f3efe4;line-height:1.3}
-.zv .zc span{flex:none;font-size:13px;color:var(--gold2);border:1px solid rgba(217,178,95,.45);border-radius:999px;padding:6px 12px;white-space:nowrap}
-@media (hover:none),(pointer:coarse),(max-width:900px){.zv{display:none!important}}
 /* ===== about ===== */
 .about{overflow-x:clip;max-width:1400px;margin:40px auto 0;padding:clamp(40px,6vw,80px) max(4vw,14px) clamp(20px,3vw,40px);border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(20px,4vw,64px);align-items:center}
 .ab-media{position:relative;align-self:stretch;min-height:460px}
@@ -811,51 +800,6 @@ $("#a11yX").onclick=()=>open(false);
 addEventListener("keydown",e=>{if(e.key==="Escape"&&pan.classList.contains("on"))open(false)});
 document.addEventListener("click",e=>{if(pan.classList.contains("on")&&!pan.contains(e.target)&&!btn.contains(e.target))open(false)});
 apply();
-}
-
-/* hover zoom: a card grows over a 3x3 area (desktop) */
-{
-const fine=matchMedia("(hover:hover) and (pointer:fine)");
-let zv=null,zid=null,zt=0,ht=0;
-const off=()=>reduce||document.documentElement.classList.contains("a-still");
-function zMk(grid){if(zv&&zv.parentNode===grid)return zv;if(zv)zv.remove();zv=document.createElement("div");zv.className="zv";zv.setAttribute("aria-hidden","true");
-  zv.innerHTML='<img class="lo" alt=""><img class="hi" alt=""><div class="zc"><b></b><span>לצפייה ←</span></div>';
-  grid.appendChild(zv);return zv}
-function zRect(el){return {x:el.offsetLeft,y:el.offsetTop,w:el.offsetWidth,h:el.offsetHeight}}
-function zHide(now){clearTimeout(zt);clearTimeout(ht);if(!zv||!zid)return;const c=zv.parentNode&&zv.parentNode.querySelector(`.card[data-id="${zid}"]`);zid=null;
-  if(now||!c){zv.classList.remove("on");zv.style.opacity="0";return}
-  const r=zRect(c);Object.assign(zv.style,{left:r.x+"px",top:r.y+"px",width:r.w+"px",height:r.h+"px"});zv.classList.remove("on")}
-function zShow(card){
-  const grid=card.parentNode,cards=[...grid.querySelectorAll(".card")],k=cards.indexOf(card),n=cards.length;
-  const cs=getComputedStyle(grid),cols=cs.gridTemplateColumns.split(" ").filter(Boolean).length,g=parseFloat(cs.columnGap)||0,rg=parseFloat(cs.rowGap)||g;
-  if(cols<3)return;
-  const z=zMk(grid),r=zRect(card),W=3*r.w+2*g,H=3*r.h+2*rg,col=k%cols,row=Math.floor(k/cols),rows=Math.ceil(n/cols);
-  /* RTL: column 0 is the rightmost */
-  let x=col===0?r.x+r.w-W:col===cols-1?r.x:r.x-r.w-g;
-  const nb=document.querySelector("nav#works"),top=(nb?nb.getBoundingClientRect().bottom:0)+8,cr=card.getBoundingClientRect();
-  const up1=cr.top-r.h-rg>=top,dn1=cr.bottom+r.h+rg<=innerHeight,dn2=cr.bottom+2*(r.h+rg)<=innerHeight,up2=cr.top-2*(r.h+rg)>=top;
-  let y;
-  if(row===0)y=r.y;
-  else if(row>=rows-1)y=r.y+r.h-H;
-  else if(up1&&dn1)y=r.y-r.h-rg;
-  else if(dn2||!up1)y=r.y;
-  else if(up2||!dn1)y=r.y+r.h-H;
-  else y=r.y-r.h-rg;
-  zid=card.dataset.id;const im=card.querySelector(".ph img");
-  const lo=z.querySelector(".lo"),hi=z.querySelector(".hi");lo.src=im&&im.src||"";hi.classList.remove("ok");hi.removeAttribute("src");
-  z.querySelector(".zc b").textContent=(fold(zid).f||{}).t||"";
-  if(!z.classList.contains("on")){z.style.transition="none";Object.assign(z.style,{left:r.x+"px",top:r.y+"px",width:r.w+"px",height:r.h+"px",opacity:""});z.offsetWidth;z.style.transition=""}else z.style.opacity="";
-  z.classList.add("on");Object.assign(z.style,{left:x+"px",top:y+"px",width:W+"px",height:H+"px"});
-  const id=zid;clearTimeout(ht);ht=setTimeout(()=>zHi(id),320)}
-async function zHi(id){
-  try{if(!full[id]){const {ci,f}=fold(id);const arr=await getJ(`d/f${ci}_${f.fc}.json`);for(const r of arr){(full[r.id]=full[r.id]||[])[r.i]=r.d}}
-    const l=full[id];if(!l||!l.length)return;if(typeof l[0]==="string"&&l[0].length>200)l[0]=url(l[0],"image/avif");
-    if(zid!==id||!zv)return;const hi=zv.querySelector(".hi");hi.onload=()=>{if(zid===id)hi.classList.add("ok")};hi.src=l[0]}catch(e){}}
-main.addEventListener("mouseover",e=>{if(!fine.matches||innerWidth<=900)return;const c=e.target.closest&&e.target.closest(".card");if(!c||c.dataset.id===zid)return;
-  clearTimeout(zt);zt=setTimeout(()=>{if(c.matches(":hover"))zShow(c)},off()?0:110)});
-main.addEventListener("mouseout",e=>{const c=e.target.closest&&e.target.closest(".card");if(!c)return;const to=e.relatedTarget;if(to&&to.closest&&to.closest(".card"))return;clearTimeout(zt);zHide()});
-main.addEventListener("click",e=>{if(e.target.closest&&e.target.closest(".card"))zHide(true)},true);
-addEventListener("resize",()=>zHide(true));
 }
 /* keep keyboard focus inside the open lightbox */
 lb.addEventListener("keydown",e=>{if(e.key!=="Tab")return;const f=[...lb.querySelectorAll("a[href],button:not([hidden])")].filter(x=>x.offsetParent!==null);if(!f.length)return;const a=f[0],z=f[f.length-1];
