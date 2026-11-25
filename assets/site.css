@@ -217,6 +217,33 @@ nav#works .mm-btn{position:absolute;top:50%;inset-inline-start:max(1.6vw,12px);t
 .mbar .mm-btn .mm-ic{transform:scale(.85)}
 .pbar .mm-btn{flex:none}
 .mm nav{position:static;background:none;border:0;backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:none;z-index:auto}
+/* ---- small gold orb button (v2) ---- */
+.mm-btn,nav#works .mm-btn,.mbar .mm-btn{width:40px;height:40px;background:transparent;box-shadow:none;border-radius:50%}
+.mm-btn::before{display:none}
+.mm-btn .mm-ic,.mbar .mm-btn .mm-ic{transform:none;width:20px;height:20px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fffbe8 0%,#f6dc94 22%,#d9b25f 55%,#9a7330 100%);box-shadow:0 0 0 1px rgba(255,240,200,.35),0 3px 8px -2px rgba(0,0,0,.8),0 0 10px 1px rgba(242,214,138,.35);transition:transform .45s cubic-bezier(.2,.7,.2,1),box-shadow .45s,filter .45s}
+.mm-btn .mm-ic i,.mm-btn .mm-ic b{display:none}
+.mm-btn .mm-ic::after{content:"";position:absolute;inset:-7px;border-radius:50%;border:1px solid rgba(242,214,138,.55);opacity:0;transform:scale(.7);transition:opacity .45s,transform .45s}
+.mm-btn:hover{transform:none}
+.mm-btn:hover .mm-ic,.mm-btn:focus-visible .mm-ic{transform:scale(1.12);box-shadow:0 0 0 1px rgba(255,240,200,.5),0 3px 8px -2px rgba(0,0,0,.8),0 0 18px 4px rgba(242,214,138,.6)}
+.mm-btn:hover .mm-ic::after,.mm-btn:focus-visible .mm-ic::after{opacity:1;transform:scale(1)}
+@keyframes mmglow{0%,100%{box-shadow:0 0 0 1px rgba(255,240,200,.35),0 3px 8px -2px rgba(0,0,0,.8),0 0 8px 1px rgba(242,214,138,.3)}50%{box-shadow:0 0 0 1px rgba(255,240,200,.45),0 3px 8px -2px rgba(0,0,0,.8),0 0 16px 3px rgba(242,214,138,.55)}}
+.mm-btn .mm-ic{animation:mmglow 3.2s ease-in-out infinite}
+html.mm-open .mm-btn .mm-ic{filter:brightness(1.25);box-shadow:0 0 0 1px #fff8e0,0 0 26px 8px rgba(242,214,138,.75)}
+.mbar .mm-btn{top:9px}
+@media(prefers-reduced-motion:reduce){.mm-btn .mm-ic{animation:none}}
+html.a-still .mm-btn .mm-ic{animation:none}
+@media(min-width:601px){nav#works .tabs{padding-inline:60px}}
+/* ---- vertical toggle switch (v3) ---- */
+.mm-btn,nav#works .mm-btn,.mbar .mm-btn{width:36px;height:44px}
+.mm-btn .mm-ic,.mbar .mm-btn .mm-ic{position:relative;width:14px;height:26px;border-radius:8px;background:rgba(10,12,30,.6);border:1px solid rgba(217,178,95,.55);box-shadow:inset 0 1px 3px rgba(0,0,0,.6);animation:none!important;filter:none;transform:none;transition:border-color .4s,box-shadow .5s}
+.mm-btn .mm-ic::after{content:"";position:absolute;inset:auto;left:50%;top:auto;bottom:2px;width:8px;height:8px;margin-left:-4px;border:0;border-radius:50%;opacity:1;transform:none;background:radial-gradient(circle at 35% 30%,#e8f1ff,#9db8e8 60%,#6f8fc8);box-shadow:0 0 4px rgba(157,184,232,.5);transition:bottom .45s cubic-bezier(.3,1.4,.5,1),background .4s,box-shadow .4s}
+.mm-btn:hover .mm-ic,.mm-btn:focus-visible .mm-ic{transform:none;border-color:#f2d68a;box-shadow:inset 0 1px 3px rgba(0,0,0,.6),0 0 8px rgba(242,214,138,.35)}
+.mm-btn:hover .mm-ic::after,.mm-btn:focus-visible .mm-ic::after{opacity:1;transform:none;bottom:4px}
+html.mm-open .mm-btn .mm-ic{filter:none;border-color:#f2d68a;box-shadow:inset 0 1px 3px rgba(0,0,0,.5),0 0 12px rgba(242,214,138,.55)}
+html.mm-open .mm-btn .mm-ic::after{bottom:14px;background:radial-gradient(circle at 35% 30%,#fffbe8,#f2d68a 55%,#c6993f);box-shadow:0 0 8px 2px rgba(242,214,138,.8)}
+.mm-btn.on .mm-ic::after{bottom:14px;background:radial-gradient(circle at 35% 30%,#fffbe8,#f2d68a 55%,#c6993f);box-shadow:0 0 8px 2px rgba(242,214,138,.8)}
+.mm-btn.on .mm-ic{border-color:#f2d68a}
+.mbar .mm-btn{top:10px}
 
 /* ===== accessibility ===== */
 .skiplink{position:fixed;top:-60px;inset-inline-start:12px;z-index:100;padding:10px 18px;border-radius:10px;background:var(--gold2);color:#12142a;font-weight:600;text-decoration:none;transition:top .25s}
