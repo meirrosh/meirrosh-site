@@ -116,6 +116,7 @@ html.mm-open .mm-lb b,html.mm-open .mm-lb small,.mm-btn:hover .mm-lb b,.mm-btn:h
 @media(prefers-reduced-motion:reduce){.mm-lb b{animation:none;opacity:1}.mm-lb small{display:none}}
 html.a-still .mm-lb b{animation:none;opacity:1}html.a-still .mm-lb small{display:none}
 .mm-lb b,.mm-lb small{inset-inline-start:auto;right:0;left:auto}
+@media(max-width:600px){nav#works .mm-btn{display:none!important}}
 
 /* placement on the 3D page */
 .site-nav>.mm-btn{direction:rtl;grid-column:3;grid-row:1;justify-self:end;position:relative;top:auto;translate:none}
