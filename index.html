@@ -83,8 +83,15 @@ nav{position:sticky;top:0;z-index:20;background:rgba(7,8,16,.86);backdrop-filter
 .about.vid .ab-bg{opacity:.5}
 .about.vid .ab-bg video{opacity:1}
 .ab-hi{display:flex;align-items:center;gap:16px;margin-bottom:4px}
-.ab-photo{flex:none;width:86px;aspect-ratio:1;border-radius:20px;overflow:hidden;border:1px solid rgba(217,178,95,.5);box-shadow:0 14px 30px -14px rgba(0,0,0,.9),0 0 0 4px rgba(217,178,95,.07);background:#0c0e20}
+.ab-photo{position:relative;flex:none;width:86px;aspect-ratio:1;border-radius:20px;transition:transform .6s cubic-bezier(.2,.7,.2,1),box-shadow .6s;border:1px solid rgba(217,178,95,.5);box-shadow:0 14px 30px -14px rgba(0,0,0,.9),0 0 0 4px rgba(217,178,95,.07);background:#0c0e20}
+.ab-photo picture{display:block;width:100%;height:100%;border-radius:inherit;overflow:hidden}
 .ab-photo img{width:100%;height:100%;object-fit:cover;object-position:45% 30%;display:block;transform:scale(1.25)}
+@property --ag{syntax:"<angle>";inherits:false;initial-value:0deg}
+.ab-photo::before{content:"";position:absolute;inset:-3px;border-radius:23px;padding:3px;background:conic-gradient(from var(--ag),transparent 0deg,transparent 190deg,rgba(242,214,138,.35) 250deg,#e9c46f 305deg,#fffbe8 335deg,#f2d68a 348deg,transparent 360deg);filter:drop-shadow(0 0 6px rgba(242,214,138,.7));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);opacity:0;transition:opacity .5s;pointer-events:none;z-index:1}
+@keyframes agspin{to{--ag:360deg}}
+@media(hover:hover){.ab-photo:hover{transform:scale(1.1);box-shadow:0 18px 40px -14px rgba(0,0,0,.95),0 0 26px -4px rgba(242,214,138,.45)}
+.ab-photo:hover::before{opacity:1;animation:agspin 2.2s linear infinite}}
+@media(prefers-reduced-motion:reduce){.ab-photo:hover::before{animation:none}}
 .ab-text .kick{margin:0 0 14px;color:var(--gold);letter-spacing:.32em;font-size:12.5px;font-weight:500;direction:ltr;text-align:right}
 .ab-text h2{margin:0;font-size:clamp(15.5px,1.15vw,17.5px);font-weight:700;line-height:1.4;color:var(--gold2)}
 .ab-text .orn{display:flex;align-items:center;gap:10px;margin:16px 0 18px;color:var(--gold)}
@@ -94,13 +101,14 @@ nav{position:sticky;top:0;z-index:20;background:rgba(7,8,16,.86);backdrop-filter
 .ab-text p.lead{color:#ece8dc;font-weight:500}
 .ab-text p.lead b{color:var(--gold2);font-weight:700}
 .ab-cta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
-.ab-cta span{color:var(--gold2);font-size:clamp(15.5px,1.15vw,17.5px);font-weight:600;margin-inline-end:6px}
+.ab-cta span{flex-basis:100%;color:var(--gold2);font-size:clamp(15.5px,1.15vw,17.5px);font-weight:600;margin:0 0 2px}
 .ab-cta a{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:999px;text-decoration:none;font-size:14.5px;font-weight:600;color:#12142a;background:linear-gradient(180deg,#f2d68a,#d9b25f);transition:transform .3s,box-shadow .3s}
 .ab-cta a:hover{transform:translateY(-2px);box-shadow:0 10px 24px -10px rgba(217,178,95,.55)}
 .ab-cta a.o{background:transparent;color:var(--gold2);border:1px solid rgba(217,178,95,.5);font-weight:500}
+.ab-cta .mbr{display:none}
 .ab-cta svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 @media(max-width:900px){.about{grid-template-columns:1fr;gap:0}.ab-media{min-height:380px;margin-bottom:6px}.ab-bg{height:118%}.ab-text{max-width:640px;margin:auto}}
-@media(max-width:600px){.ab-media{min-height:320px}.ab-photo{width:72px;border-radius:17px}.ab-text .kick{font-size:11px;letter-spacing:.24em}.ab-cta{justify-content:center}.ab-cta span{flex-basis:100%;text-align:center;margin:0 0 4px}}
+@media(max-width:600px){.ab-media{min-height:320px}.ab-photo{width:72px;border-radius:17px}.ab-photo::before{border-radius:19px}.ab-text .kick{font-size:11px;letter-spacing:.24em}.ab-cta{justify-content:center}.ab-cta span{text-align:center}.ab-cta .mbr{display:inline}}
 html.a-hc .ab-text p{color:#fff!important}
 /* ===== studio map + google reviews ===== */
 .visit{max-width:1400px;margin:30px auto 0;padding:clamp(40px,6vw,76px) max(4vw,14px) 10px;border-top:1px solid var(--line)}
@@ -326,7 +334,7 @@ footer .fl{display:block;margin-top:8px}footer .fl a{color:#a9a6bb;font-size:.9e
     <p>האות העברית עומדת במרכז רבות מעבודותיי. כשאני ניגש לעצב פסוק לפרוכת או שם לספר, אני מתחיל בהבנת המשמעות. משמעות המילים והקצב שלהן מנחים אותי בבחירת סגנון האותיות הקליגרפי, ואת המקום שאני נותן לשאר היצירה ולצבע. אני אוהב במיוחד את הרגע שבו הוויזואליות של מילה מצליחה לבטא את המשמעות שלה.</p>
     <p>לצד העיסוק באותיות, אני מצייר דיגיטלית יצירות ודיוקנאות. בעת שכזו אני מחפש דרך לבטא את מה שהנושא מעורר בי. בדיוקן חשוב לי לתפוס משהו מאופיה של הדמות דרך המבט וההבעה שלה.</p>
     <p>ביצירות בהזמנה חשוב לי להכיר את האנשים שהיצירה מיועדת להם. בפרוכת לבית כנסת, למשל, יש מקום לאופי של הקהילה ובית הכנסת. השיחות האלה הן חלק בלתי נפרד מהעבודה שלי.</p>
-    <div class="ab-cta"><span>מעוניינים בהזמנת הדפסים או יצירות בהתאמה אישית? פנו אליי כעת <bdi dir="ltr">:)</bdi></span><a href="https://wa.me/972546532798" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5 5 16.1A8.4 8.4 0 1 1 20.5 11.6z"/></svg>שליחת הודעה בוואטסאפ</a><a class="o" href="#contact">ליצירת קשר</a></div>
+    <div class="ab-cta"><span>מעוניינים בהזמנת הדפסים או יצירות בהתאמה אישית?<br class="mbr"> פנו אליי כעת <bdi dir="ltr">:)</bdi></span><a href="https://wa.me/972546532798" target="_blank" rel="noopener"><svg viewBox="0 0 24 24"><path d="M20.5 11.6a8.4 8.4 0 0 1-12.4 7.4L3.5 20.5 5 16.1A8.4 8.4 0 1 1 20.5 11.6z"/></svg>שליחת הודעה בוואטסאפ</a><a class="o" href="#contact">ליצירת קשר</a></div>
   </div>
 </section>
 <section class="visit" id="visit" aria-labelledby="visitT">
@@ -705,6 +713,9 @@ if(v){
 ab.addEventListener("mouseenter",()=>{if(!ok())return;clearTimeout(off);if(!v.src){v.src=v.dataset.src}
   const go=()=>{ab.classList.add("vid")};const p=v.play();if(p)p.then(go).catch(()=>{});else go()});
 ab.addEventListener("mouseleave",()=>{ab.classList.remove("vid");clearTimeout(off);off=setTimeout(()=>{try{v.pause();v.currentTime=0}catch(e){}},1700)});
+if("IntersectionObserver"in window){new IntersectionObserver(es=>{const touch=!matchMedia("(hover:hover) and (pointer:fine)").matches;if(!touch)return;
+  for(const e of es){if(e.isIntersecting&&!matchMedia("(prefers-reduced-motion: reduce)").matches&&!document.documentElement.classList.contains("a-still")){if(!v.src)v.src=v.dataset.src;const p=v.play();if(p)p.then(()=>ab.classList.add("vid")).catch(()=>{})}
+    else{ab.classList.remove("vid");try{v.pause()}catch(x){}}}},{threshold:.3}).observe(ab.querySelector(".ab-media"))}
 }
 }
 </script>
