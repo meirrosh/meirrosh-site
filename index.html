@@ -83,7 +83,7 @@ nav{position:sticky;top:0;z-index:20;background:rgba(7,8,16,.86);backdrop-filter
 .vhead .orn i:last-child{transform:scaleX(-1)}
 .vhead .orn b{width:7px;height:7px;transform:rotate(45deg);border:1px solid var(--gold)}
 .vgrid{display:grid;grid-template-columns:1.35fr 1fr;gap:clamp(14px,2vw,26px);align-items:stretch}
-.mapbox{position:relative;min-height:440px;border-radius:24px;overflow:hidden;border:1px solid rgba(217,178,95,.28);background:radial-gradient(circle at 50% 45%,#16193a,#090b1a 70%);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
+.mapbox{position:relative;isolation:isolate;z-index:0;min-height:440px;border-radius:24px;overflow:hidden;border:1px solid rgba(217,178,95,.28);background:radial-gradient(circle at 50% 45%,#16193a,#090b1a 70%);box-shadow:0 30px 60px -30px rgba(0,0,0,.8)}
 #smap{position:absolute;inset:0;background:transparent}
 .mapbox::after{content:"";position:absolute;inset:0;pointer-events:none;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(242,214,138,.08),inset 0 0 90px 10px rgba(6,7,18,.75);z-index:401}
 .maplibregl-map{font:inherit!important}
@@ -102,7 +102,7 @@ nav{position:sticky;top:0;z-index:20;background:rgba(7,8,16,.86);backdrop-filter
 .mcard .go a{display:inline-flex;align-items:center;gap:6px;padding:7px 14px;border-radius:999px;font-size:13.5px;text-decoration:none;color:#12142a;background:linear-gradient(180deg,#f2d68a,#d9b25f);font-weight:600}
 .mcard .go a.o{background:transparent;color:var(--gold2);border:1px solid rgba(217,178,95,.5);font-weight:500}
 .mcard .go svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
-.revs{position:relative;display:flex;flex-direction:column;border-radius:24px;padding:clamp(20px,2.4vw,30px);border:1px solid rgba(217,178,95,.28);background:linear-gradient(160deg,rgba(242,214,138,.07),rgba(255,255,255,.015) 40%),radial-gradient(circle at 80% 0%,#1a1d40,#0b0d1e 70%);overflow:hidden}
+.revs{position:relative;isolation:isolate;z-index:0;display:flex;flex-direction:column;border-radius:24px;padding:clamp(20px,2.4vw,30px);border:1px solid rgba(217,178,95,.28);background:linear-gradient(160deg,rgba(242,214,138,.07),rgba(255,255,255,.015) 40%),radial-gradient(circle at 80% 0%,#1a1d40,#0b0d1e 70%);overflow:hidden}
 .rtop{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid var(--line)}
 .rtop h3{margin:0;font-size:19px;font-weight:600;color:var(--ink)}
 .rtop h3 small{display:block;font-size:12px;color:var(--mute);font-weight:300;letter-spacing:.12em;direction:ltr;text-align:right}
@@ -630,9 +630,9 @@ function initMap(){if(mapOn)return;mapOn=true;
   const l=document.createElement("link");l.rel="stylesheet";l.href="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.css";document.head.appendChild(l);
   const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/maplibre-gl@4.7.1/dist/maplibre-gl.js";s.onload=()=>{
     try{maplibregl.setRTLTextPlugin("https://cdn.jsdelivr.net/npm/@mapbox/mapbox-gl-rtl-text@0.2.3/mapbox-gl-rtl-text.min.js",true)}catch(e){}
-    const m=new maplibregl.Map({container:"smap",style:"https://tiles.openfreemap.org/styles/positron",center:[P[1],P[0]+.0008],zoom:15.6,cooperativeGestures:true,attributionControl:{compact:true},
+    const m=new maplibregl.Map({container:"smap",style:"https://tiles.openfreemap.org/styles/positron",center:[P[1],P[0]+.0008],zoom:15.6,minZoom:11,maxZoom:18.5,cooperativeGestures:true,attributionControl:{compact:true},
       locale:{"CooperativeGesturesHandler.WindowsHelpText":"להגדלת המפה: Ctrl + גלגלת","CooperativeGesturesHandler.MacHelpText":"להגדלת המפה: ⌘ + גלגלת","CooperativeGesturesHandler.MobileHelpText":"הזיזו את המפה בשתי אצבעות"}});
-    m.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-left");
+    m.addControl(new maplibregl.NavigationControl({showCompass:false}),"top-right");
     m.on("styledata",()=>{if(m._mr)return;m._mr=1;
       for(const L of m.getStyle().layers){const id=L.id,y=L.type;
         try{
