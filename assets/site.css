@@ -57,6 +57,7 @@ nav#works .sr-btn{top:10px;inset-inline-end:max(1.6vw,12px)}
 .sr-lb b,.sr-lb small{right:auto!important;left:0!important}
 .sr-btn:hover .mm-lb b,.sr-btn:hover .mm-lb small,.sr-btn[aria-expanded="true"] .mm-lb b,.sr-btn[aria-expanded="true"] .mm-lb small{color:#f2d68a}
 .srp{position:fixed;z-index:60;top:80px;left:16px;width:min(460px,calc(100vw - 24px));max-height:min(72vh,640px);display:flex;flex-direction:column;border-radius:20px;background:linear-gradient(170deg,rgba(26,30,70,.97),rgba(8,9,20,.97));border:1px solid rgba(217,178,95,.4);box-shadow:0 30px 80px -20px rgba(0,0,0,.95);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow:hidden;opacity:0;transform:translateY(-10px) scale(.98);transform-origin:top left;transition:opacity .35s,transform .45s cubic-bezier(.2,.7,.2,1)}
+.srp[hidden]{display:none!important}.srp:not(.on){pointer-events:none}
 .srp.on{opacity:1;transform:none}
 .srf{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid rgba(217,178,95,.2)}
 .srf>svg{width:20px;height:20px;flex:none;fill:none;stroke:#d9b25f;stroke-width:1.6;stroke-linecap:round}
@@ -296,6 +297,8 @@ html.mm-open .mm-lb b,html.mm-open .mm-lb small,.mm-btn:hover .mm-lb b,.mm-btn:h
 html.a-still .mm-lb b{animation:none;opacity:1}html.a-still .mm-lb small{display:none}
 .mm-lb b,.mm-lb small{inset-inline-start:auto;right:0;left:auto}
 @media(max-width:600px){nav#works .mm-btn{display:none!important}}
+
+.mm::before{display:none!important}
 
 /* ===== accessibility ===== */
 .skiplink{position:fixed;top:-60px;inset-inline-start:12px;z-index:100;padding:10px 18px;border-radius:10px;background:var(--gold2);color:#12142a;font-weight:600;text-decoration:none;transition:top .25s}

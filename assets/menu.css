@@ -118,6 +118,8 @@ html.a-still .mm-lb b{animation:none;opacity:1}html.a-still .mm-lb small{display
 .mm-lb b,.mm-lb small{inset-inline-start:auto;right:0;left:auto}
 @media(max-width:600px){nav#works .mm-btn{display:none!important}}
 
+.mm::before{display:none!important}
+
 /* placement on the 3D page */
 .site-nav>.mm-btn{direction:rtl;grid-column:3;grid-row:1;justify-self:end;position:relative;top:auto;translate:none}
 @media (max-width:760px),(max-width:1000px) and (max-height:550px) and (orientation:landscape){.site-nav{position:relative}.site-nav>.mm-btn{position:absolute;top:8px;right:0}}
